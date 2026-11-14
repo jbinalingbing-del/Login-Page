@@ -48,8 +48,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-background">
-      <Card className="w-full max-w-md">
+    <div className="auth-bg flex min-h-screen items-center justify-center p-4">
+      <Card className="auth-card w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl">Create Account</CardTitle>
           <CardDescription>Register a new account to get started.</CardDescription>
@@ -82,7 +82,7 @@ export default function RegisterPage() {
               />
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col gap-4">
+          <CardFooter className="flex flex-col gap-4 border-t-0 bg-transparent">
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Registering..." : "Register"}
             </Button>

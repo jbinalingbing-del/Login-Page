@@ -7,7 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -48,73 +48,40 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ===== THEME: dito ka lang magpalit ng kulay ===== */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #0f0d17;
+  --foreground: #f5f5f7;
+  --card: #151519;
+  --card-foreground: #f5f5f7;
+  --popover: #151519;
+  --popover-foreground: #f5f5f7;
+  --primary: #7c5cff;
+  --primary-foreground: #ffffff;
+  --secondary: #2a2540;
+  --secondary-foreground: #f5f5f7;
+  --muted: #1c1a2b;
+  --muted-foreground: #a1a1b5;
+  --accent: #2a2540;
+  --accent-foreground: #f5f5f7;
+  --destructive: #ef4444;
+  --border: #3b2f6b;
+  --input: #2a2540;
+  --ring: #7c5cff;
+  --chart-1: #7c5cff;
+  --chart-2: #a78bfa;
+  --chart-3: #c4b5fd;
+  --chart-4: #8b5cf6;
+  --chart-5: #6d28d9;
+  --radius: 1rem;
+  --sidebar: #151519;
+  --sidebar-foreground: #f5f5f7;
+  --sidebar-primary: #7c5cff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2a2540;
+  --sidebar-accent-foreground: #f5f5f7;
+  --sidebar-border: #3b2f6b;
+  --sidebar-ring: #7c5cff;
 }
 
 @layer base {
@@ -128,4 +95,64 @@
     @apply font-sans;
   }
 }
-:
+
+/* ===== AUTH CARD (login + register) ===== */
+.auth-card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 0 30px -10px color-mix(in srgb, var(--primary) 50%, transparent);
+}
+
+.auth-card input {
+  background: var(--input);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+.auth-card input:focus-visible {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 30%, transparent);
+}
+
+.auth-card button[type="submit"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Footer ng card: walang gray background, walang guhit */
+.auth-card > form > div:last-child {
+  background: transparent !important;
+  border-top: none !important;
+  border-color: transparent !important;
+  padding-top: 1.5rem;
+}
+/* ===== PAGE BACKGROUND (picture) ===== */
+.auth-bg {
+  background-image:
+    linear-gradient(rgba(15, 13, 23, 0.6), rgba(15, 13, 23, 0.6)),
+    url("/photo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+/* ===== DASHBOARD BACKGROUND + CARDS ===== */
+/* ===== DASHBOARD BACKGROUND + CARDS ===== */
+.dash-bg {
+  background-image:
+    linear-gradient(rgba(15, 13, 23, 0.6), rgba(15, 13, 23, 0.6)),
+    url("/photo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.dash-bg [data-slot="card"] {
+  background: color-mix(in srgb, var(--card) 90%, transparent);
+  border: 1px solid var(--border);
+  box-shadow: 0 0 30px -10px color-mix(in srgb, var(--primary) 50%, transparent);
+}
