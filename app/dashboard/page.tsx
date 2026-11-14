@@ -35,10 +35,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-interface Position {
-  position_id: number;
-  position_code: string;
-  position_name: string;
+interface Category {
+  category_id: number;
+  category_code: string;
+  category_name: string;
   id?: number;
   created_at?: string;
   updated_at?: string;
@@ -49,8 +49,8 @@ export default function DashboardPage() {
   const { isChecking } = useAuthGuard({ requireAuth: true });
 
   // Data states
-  const [positions, setPositions] = useState<Position[]>([]);
-  const [selectedPosition, setSelectedPosition] = useState<Position | null>(
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
   const [loading, setLoading] = useState(false);
@@ -61,21 +61,21 @@ export default function DashboardPage() {
   // Form states (shared for Create and Update)
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [positionCode, setPositionCode] = useState("");
-  const [positionName, setPositionName] = useState("");
+  const [categoryCode, setCategoryCode] = useState("");
+  const [categoryName, setCategoryName] = useState("");
 
-  // READ (All Positions)
-  const fetchPositions = useCallback(async () => {
+  // READ (All)
+  const fetchCategories = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
-      const data = await apiClient<Position[]>(CONFIG.ENDPOINTS.POSITIONS, {
+      const data = await apiClient<Category[]>(CONFIG.ENDPOINTS.CATEGORY, {
         method: "GET",
         requiresAuth: true,
       });
-      setPositions(Array.isArray(data) ? data : []);
+      setCategories(Array.isArray(data) ? data : []);
     } catch (err: any) {
-      setError(err.message || "Failed to fetch positions.");
+      setError(err.message || "Failed to fetch categories.");
     } finally {
       setLoading(false);
     }
@@ -83,45 +83,45 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!isChecking) {
-      fetchPositions();
+      fetchCategories();
     }
-  }, [isChecking, fetchPositions]);
+  }, [isChecking, fetchCategories]);
 
-  // READ (Single Position)
-  const handleViewPosition = async (positionId: number) => {
+  // READ (Single)
+  const handleViewCategory = async (categoryId: number) => {
     setError("");
     setSuccess("");
     try {
-      const data = await apiClient<Position>(
-        `${CONFIG.ENDPOINTS.POSITIONS}/${positionId}`,
+      const data = await apiClient<Category>(
+        `${CONFIG.ENDPOINTS.CATEGORY}/${categoryId}`,
         {
           method: "GET",
           requiresAuth: true,
         }
       );
-      setSelectedPosition(data);
+      setSelectedCategory(data);
     } catch (err: any) {
-      setError(err.message || "Failed to load position details.");
+      setError(err.message || "Failed to load category details.");
     }
   };
 
   // Open Form for CREATE
   const openCreateForm = () => {
     setEditingId(null);
-    setPositionCode("");
-    setPositionName("");
-    setSelectedPosition(null);
+    setCategoryCode("");
+    setCategoryName("");
+    setSelectedCategory(null);
     setError("");
     setSuccess("");
     setIsFormOpen(true);
   };
 
   // Open Form for UPDATE
-  const openEditForm = (position: Position) => {
-    setEditingId(position.position_id);
-    setPositionCode(position.position_code);
-    setPositionName(position.position_name);
-    setSelectedPosition(null);
+  const openEditForm = (category: Category) => {
+    setEditingId(category.category_id);
+    setCategoryCode(category.category_code);
+    setCategoryName(category.category_name);
+    setSelectedCategory(null);
     setError("");
     setSuccess("");
     setIsFormOpen(true);
@@ -130,8 +130,8 @@ export default function DashboardPage() {
   const closeForm = () => {
     setIsFormOpen(false);
     setEditingId(null);
-    setPositionCode("");
-    setPositionName("");
+    setCategoryCode("");
+    setCategoryName("");
   };
 
   // CREATE & UPDATE Submit Handler
@@ -150,33 +150,33 @@ export default function DashboardPage() {
 
     try {
       if (editingId !== null) {
-        // UPDATE (PUT /positions/:id)
-        await apiClient(`${CONFIG.ENDPOINTS.POSITIONS}/${editingId}`, {
+        // UPDATE (PUT /category/:id)
+        await apiClient(`${CONFIG.ENDPOINTS.CATEGORY}/${editingId}`, {
           method: "PUT",
           requiresAuth: true,
           body: JSON.stringify({
-            position_code: positionCode,
-            position_name: positionName,
+            category_code: categoryCode,
+            category_name: categoryName,
             id: userId,
           }),
         });
-        setSuccess(`Position #${editingId} updated successfully.`);
+        setSuccess(`Category #${editingId} updated successfully.`);
       } else {
-        // CREATE (POST /positions)
-        await apiClient(CONFIG.ENDPOINTS.POSITIONS, {
+        // CREATE (POST /category)
+        await apiClient(CONFIG.ENDPOINTS.CATEGORY, {
           method: "POST",
           requiresAuth: true,
           body: JSON.stringify({
-            position_code: positionCode,
-            position_name: positionName,
+            category_code: categoryCode,
+            category_name: categoryName,
             id: userId,
           }),
         });
-        setSuccess("New position created successfully.");
+        setSuccess("New category created successfully.");
       }
 
       closeForm();
-      await fetchPositions();
+      await fetchCategories();
     } catch (err: any) {
       setError(err.message || "Operation failed.");
     } finally {
@@ -184,28 +184,28 @@ export default function DashboardPage() {
     }
   };
 
-  // DELETE (DELETE /positions/:id)
-  const handleDelete = async (positionId: number) => {
+  // DELETE (DELETE /category/:id)
+  const handleDelete = async (categoryId: number) => {
     const confirmed = window.confirm(
-      `Are you sure you want to delete Position #${positionId}?`
+      `Are you sure you want to delete Category #${categoryId}?`
     );
     if (!confirmed) return;
 
     setError("");
     setSuccess("");
     try {
-      await apiClient(`${CONFIG.ENDPOINTS.POSITIONS}/${positionId}`, {
+      await apiClient(`${CONFIG.ENDPOINTS.CATEGORY}/${categoryId}`, {
         method: "DELETE",
         requiresAuth: true,
       });
 
-      if (selectedPosition?.position_id === positionId) {
-        setSelectedPosition(null);
+      if (selectedCategory?.category_id === categoryId) {
+        setSelectedCategory(null);
       }
-      setSuccess(`Position #${positionId} deleted successfully.`);
-      await fetchPositions();
+      setSuccess(`Category #${categoryId} deleted successfully.`);
+      await fetchCategories();
     } catch (err: any) {
-      setError(err.message || "Failed to delete position.");
+      setError(err.message || "Failed to delete category.");
     }
   };
 
@@ -229,9 +229,7 @@ export default function DashboardPage() {
         <header className="flex justify-between items-center border-b pb-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-sm text-muted-foreground">
-              Manage organization positions
-            </p>
+            <p className="text-sm text-muted-foreground">Manage categories</p>
           </div>
           <Button variant="destructive" onClick={handleLogout}>
             <LogOut className="w-4 h-4 mr-2" />
@@ -258,13 +256,13 @@ export default function DashboardPage() {
               <div>
                 <CardTitle>
                   {editingId !== null
-                    ? `Update Position #${editingId}`
-                    : "Create New Position"}
+                    ? `Update Category #${editingId}`
+                    : "Create New Category"}
                 </CardTitle>
                 <CardDescription>
                   {editingId !== null
-                    ? "Modify the position code and name below."
-                    : "Fill in the details to add a new position."}
+                    ? "Modify the category code and name below."
+                    : "Fill in the details to add a new category."}
                 </CardDescription>
               </div>
               <Button variant="ghost" size="icon" onClick={closeForm}>
@@ -275,22 +273,22 @@ export default function DashboardPage() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="position_code">Position Code</Label>
+                    <Label htmlFor="category_code">Category Code</Label>
                     <Input
-                      id="position_code"
-                      placeholder="e.g. Pres"
-                      value={positionCode}
-                      onChange={(e) => setPositionCode(e.target.value)}
+                      id="category_code"
+                      placeholder="e.g. VM3"
+                      value={categoryCode}
+                      onChange={(e) => setCategoryCode(e.target.value)}
                       required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="position_name">Position Name</Label>
+                    <Label htmlFor="category_name">Category Name</Label>
                     <Input
-                      id="position_name"
-                      placeholder="e.g. President"
-                      value={positionName}
-                      onChange={(e) => setPositionName(e.target.value)}
+                      id="category_name"
+                      placeholder="e.g. Value Meal 3"
+                      value={categoryName}
+                      onChange={(e) => setCategoryName(e.target.value)}
                       required
                     />
                   </div>
@@ -304,7 +302,7 @@ export default function DashboardPage() {
                       ? "Saving..."
                       : editingId !== null
                       ? "Save Changes"
-                      : "Create Position"}
+                      : "Create Category"}
                   </Button>
                 </div>
               </form>
@@ -313,50 +311,50 @@ export default function DashboardPage() {
         )}
 
         {/* READ Single Item Details Card */}
-        {selectedPosition && (
+        {selectedCategory && (
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <div>
                 <CardTitle>
-                  Position Details (#{selectedPosition.position_id})
+                  Category Details (#{selectedCategory.category_id})
                 </CardTitle>
                 <CardDescription>
-                  Fetched directly from GET /positions/
-                  {selectedPosition.position_id}
+                  Fetched directly from GET /category/
+                  {selectedCategory.category_id}
                 </CardDescription>
               </div>
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setSelectedPosition(null)}
+                onClick={() => setSelectedCategory(null)}
               >
                 <X className="w-4 h-4" />
               </Button>
             </CardHeader>
             <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
-                <span className="text-muted-foreground block">Position ID</span>
+                <span className="text-muted-foreground block">Category ID</span>
                 <span className="font-medium">
-                  {selectedPosition.position_id}
+                  {selectedCategory.category_id}
                 </span>
               </div>
               <div>
                 <span className="text-muted-foreground block">Code</span>
                 <span className="font-medium">
-                  {selectedPosition.position_code}
+                  {selectedCategory.category_code}
                 </span>
               </div>
               <div>
                 <span className="text-muted-foreground block">Name</span>
                 <span className="font-medium">
-                  {selectedPosition.position_name}
+                  {selectedCategory.category_name}
                 </span>
               </div>
               <div>
                 <span className="text-muted-foreground block">Created At</span>
                 <span className="font-medium">
-                  {selectedPosition.created_at
-                    ? new Date(selectedPosition.created_at).toLocaleDateString()
+                  {selectedCategory.created_at
+                    ? new Date(selectedCategory.created_at).toLocaleDateString()
                     : "N/A"}
                 </span>
               </div>
@@ -364,19 +362,19 @@ export default function DashboardPage() {
           </Card>
         )}
 
-        {/* Positions Table Card */}
+        {/* Category Table Card */}
         <Card>
           <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <CardTitle>Positions</CardTitle>
+              <CardTitle>Categories</CardTitle>
               <CardDescription>
-                A list of all positions stored in the backend.
+                A list of all categories stored in the backend.
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
-                onClick={fetchPositions}
+                onClick={fetchCategories}
                 disabled={loading}
               >
                 <RefreshCw
@@ -386,7 +384,7 @@ export default function DashboardPage() {
               </Button>
               <Button onClick={openCreateForm}>
                 <Plus className="w-4 h-4 mr-2" />
-                Create Position
+                Create Category
               </Button>
             </div>
           </CardHeader>
@@ -396,8 +394,8 @@ export default function DashboardPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[90px]">ID</TableHead>
-                    <TableHead>Position Code</TableHead>
-                    <TableHead>Position Name</TableHead>
+                    <TableHead>Category Code</TableHead>
+                    <TableHead>Category Name</TableHead>
                     <TableHead>Created At</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
@@ -409,30 +407,30 @@ export default function DashboardPage() {
                         colSpan={5}
                         className="h-24 text-center text-muted-foreground"
                       >
-                        Loading positions...
+                        Loading categories...
                       </TableCell>
                     </TableRow>
-                  ) : positions.length === 0 ? (
+                  ) : categories.length === 0 ? (
                     <TableRow>
                       <TableCell
                         colSpan={5}
                         className="h-24 text-center text-muted-foreground"
                       >
-                        No positions found. Click &quot;Create Position&quot; to
-                        add one.
+                        No categories found. Click &quot;Create Category&quot;
+                        to add one.
                       </TableCell>
                     </TableRow>
                   ) : (
-                    positions.map((pos) => (
-                      <TableRow key={pos.position_id}>
+                    categories.map((cat) => (
+                      <TableRow key={cat.category_id}>
                         <TableCell className="font-medium">
-                          {pos.position_id}
+                          {cat.category_id}
                         </TableCell>
-                        <TableCell>{pos.position_code}</TableCell>
-                        <TableCell>{pos.position_name}</TableCell>
+                        <TableCell>{cat.category_code}</TableCell>
+                        <TableCell>{cat.category_name}</TableCell>
                         <TableCell>
-                          {pos.created_at
-                            ? new Date(pos.created_at).toLocaleDateString()
+                          {cat.created_at
+                            ? new Date(cat.created_at).toLocaleDateString()
                             : "-"}
                         </TableCell>
                         <TableCell className="text-right">
@@ -440,9 +438,7 @@ export default function DashboardPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() =>
-                                handleViewPosition(pos.position_id)
-                              }
+                              onClick={() => handleViewCategory(cat.category_id)}
                             >
                               <Eye className="w-4 h-4 mr-1" />
                               Read
@@ -450,7 +446,7 @@ export default function DashboardPage() {
                             <Button
                               variant="secondary"
                               size="sm"
-                              onClick={() => openEditForm(pos)}
+                              onClick={() => openEditForm(cat)}
                             >
                               <Pencil className="w-4 h-4 mr-1" />
                               Update
@@ -458,7 +454,7 @@ export default function DashboardPage() {
                             <Button
                               variant="destructive"
                               size="sm"
-                              onClick={() => handleDelete(pos.position_id)}
+                              onClick={() => handleDelete(cat.category_id)}
                             >
                               <Trash2 className="w-4 h-4 mr-1" />
                               Delete
