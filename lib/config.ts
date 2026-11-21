@@ -10,10 +10,14 @@ export const CONFIG = {
     LOGIN: "/login",
     REGISTER: "/register",
     DASHBOARD: "/dashboard",
+    PRODUCT: "/product",
+    ORDER_ITEM: "/order-item",
   },
   ENDPOINTS: {
     LOGIN: "/auth/login",
     REGISTER: "/auth/register",
     CATEGORY: "/category",
+    PRODUCT: "/product",
+    ORDER_ITEM: "/order_item",
   },
 } as const;

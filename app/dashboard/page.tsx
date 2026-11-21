@@ -7,9 +7,11 @@ import { useRouter } from "next/navigation";
 import {
   Eye,
   LogOut,
+  Package,
   Pencil,
   Plus,
   RefreshCw,
+  ShoppingCart,
   Trash2,
   X,
 } from "lucide-react";
@@ -231,10 +233,26 @@ export default function DashboardPage() {
             <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
             <p className="text-sm text-muted-foreground">Manage categories</p>
           </div>
-          <Button variant="destructive" onClick={handleLogout}>
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => router.push(CONFIG.ROUTES.PRODUCT)}
+            >
+              <Package className="w-4 h-4 mr-2" />
+              Products
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => router.push(CONFIG.ROUTES.ORDER_ITEM)}
+            >
+              <ShoppingCart className="w-4 h-4 mr-2" />
+              Order Items
+            </Button>
+            <Button variant="destructive" onClick={handleLogout}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </header>
 
         {/* Status Notifications */}
