@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
+  Coffee,
   Eye,
   LogOut,
   Pencil,
@@ -227,8 +228,13 @@ export default function ProductPage() {
         {/* Top Navbar */}
         <header className="flex justify-between items-center border-b pb-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Products</h1>
-            <p className="text-sm text-muted-foreground">Manage products</p>
+            <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight">
+              <Coffee className="w-7 h-7" />
+              Coffee Relax
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Coffee Shop Management · Menu Products
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -270,7 +276,7 @@ export default function ProductPage() {
                 <CardDescription>
                   {editingId !== null
                     ? "Modify the product code and name below."
-                    : "Fill in the details to add a new product."}
+                    : "Add a new menu item (e.g. Americano, Latte)."}
                 </CardDescription>
               </div>
               <Button variant="ghost" size="icon" onClick={closeForm}>
@@ -284,7 +290,7 @@ export default function ProductPage() {
                     <Label htmlFor="product_code">Product Code</Label>
                     <Input
                       id="product_code"
-                      placeholder="e.g. P001"
+                      placeholder="e.g. AME"
                       value={productCode}
                       onChange={(e) => setProductCode(e.target.value)}
                       required
@@ -294,7 +300,7 @@ export default function ProductPage() {
                     <Label htmlFor="product_name">Product Name</Label>
                     <Input
                       id="product_name"
-                      placeholder="e.g. Coffee"
+                      placeholder="e.g. Americano"
                       value={productName}
                       onChange={(e) => setProductName(e.target.value)}
                       required
@@ -371,9 +377,9 @@ export default function ProductPage() {
         <Card>
           <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <CardTitle>Products</CardTitle>
+              <CardTitle>Menu Products</CardTitle>
               <CardDescription>
-                A list of all products stored in the backend.
+                All coffee shop menu products stored in the backend.
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">

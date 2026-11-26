@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
+  Coffee,
   Eye,
   LogOut,
   Pencil,
@@ -227,8 +228,13 @@ export default function OrderItemPage() {
         {/* Top Navbar */}
         <header className="flex justify-between items-center border-b pb-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Order Items</h1>
-            <p className="text-sm text-muted-foreground">Manage order items</p>
+            <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight">
+              <Coffee className="w-7 h-7" />
+              Coffee Relax
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Coffee Shop Management · Customer Orders
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -270,7 +276,7 @@ export default function OrderItemPage() {
                 <CardDescription>
                   {editingId !== null
                     ? "Modify the order item code and name below."
-                    : "Fill in the details to add a new order item."}
+                    : "Add a new order item (e.g. 2x Americano)."}
                 </CardDescription>
               </div>
               <Button variant="ghost" size="icon" onClick={closeForm}>
@@ -294,7 +300,7 @@ export default function OrderItemPage() {
                     <Label htmlFor="order_item_name">Order Item Name</Label>
                     <Input
                       id="order_item_name"
-                      placeholder="e.g. Item 1"
+                      placeholder="e.g. 2x Americano"
                       value={itemName}
                       onChange={(e) => setItemName(e.target.value)}
                       required
@@ -374,9 +380,9 @@ export default function OrderItemPage() {
         <Card>
           <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <CardTitle>Order Items</CardTitle>
+              <CardTitle>Customer Orders</CardTitle>
               <CardDescription>
-                A list of all order items stored in the backend.
+                All coffee shop order items stored in the backend.
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
