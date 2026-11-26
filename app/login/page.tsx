@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Coffee } from "lucide-react";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { apiClient } from "@/lib/api";
 import { setTokens } from "@/lib/auth";
@@ -58,8 +59,14 @@ export default function LoginPage() {
     <div className="auth-bg flex min-h-screen items-center justify-center p-4">
       <Card className="auth-card w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>Enter your credentials to access your account.</CardDescription>
+          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+            <Coffee className="w-5 h-5" />
+            Coffee Relax
+          </div>
+          <CardTitle className="text-2xl">Welcome back</CardTitle>
+          <CardDescription>
+            Login to manage your coffee shop.
+          </CardDescription>
         </CardHeader>
         <form onSubmit={handleLogin}>
           <CardContent className="space-y-4">
@@ -94,7 +101,7 @@ export default function LoginPage() {
               {loading ? "Logging in..." : "Login"}
             </Button>
             <p className="text-sm text-center text-muted-foreground">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href={CONFIG.ROUTES.REGISTER} className="text-primary underline">
                 Register
               </Link>

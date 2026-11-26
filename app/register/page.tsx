@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Coffee } from "lucide-react";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { apiClient } from "@/lib/api";
 import { CONFIG } from "@/lib/config";
@@ -51,8 +52,14 @@ export default function RegisterPage() {
     <div className="auth-bg flex min-h-screen items-center justify-center p-4">
       <Card className="auth-card w-full max-w-md">
         <CardHeader>
+          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+            <Coffee className="w-5 h-5" />
+            Coffee Relax
+          </div>
           <CardTitle className="text-2xl">Create Account</CardTitle>
-          <CardDescription>Register a new account to get started.</CardDescription>
+          <CardDescription>
+            Register to start managing your coffee shop.
+          </CardDescription>
         </CardHeader>
         <form onSubmit={handleRegister}>
           <CardContent className="space-y-4">
