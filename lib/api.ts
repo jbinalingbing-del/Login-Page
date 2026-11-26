@@ -44,7 +44,7 @@ export async function apiClient<T>(
   if (!response.ok) {
     const errorMessage = Array.isArray(data.message)
       ? data.message.join(", ")
-      : data.message || "An unexpected error occurred.";
+      : data.message || data.error || "An unexpected error occurred.";
     throw new Error(errorMessage);
   }
 

@@ -35,14 +35,20 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      await apiClient("/auth/register", {
+      const trimmedUsername = username.trim();
+      const data = await apiClient<any>("/auth/register", {
         method: "POST",
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username: trimmedUsername, password }),
       });
+
+      if (data?.error) {
+        setError(data.error);
+        return;
+      }
 
       router.push(CONFIG.ROUTES.LOGIN);
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || "Registration failed.");
     } finally {
       setLoading(false);
     }

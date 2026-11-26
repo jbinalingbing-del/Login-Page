@@ -21,8 +21,10 @@ import {
 } from "@/components/ui/card";
 
 interface LoginResponse {
-  accessToken: string;
+  accessToken?: string;
   refreshToken?: string;
+  error?: string;
+  message?: string | string[];
 }
 
 export default function LoginPage() {
@@ -41,15 +43,21 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
+      const trimmedUsername = username.trim();
       const data = await apiClient<LoginResponse>("/auth/login", {
         method: "POST",
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username: trimmedUsername, password }),
       });
+
+      if (data.error || !data.accessToken) {
+        setError(data.error || "Invalid username or password.");
+        return;
+      }
 
       setTokens(data.accessToken, data.refreshToken);
       router.push(CONFIG.ROUTES.DASHBOARD);
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || "Failed to log in.");
     } finally {
       setLoading(false);
     }
