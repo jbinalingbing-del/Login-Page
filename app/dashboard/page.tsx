@@ -5,6 +5,7 @@ import { clearTokens, getUserId } from "@/lib/auth";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
+  Coffee,
   Eye,
   LogOut,
   Package,
@@ -230,8 +231,13 @@ export default function DashboardPage() {
         {/* Top Navbar */}
         <header className="flex justify-between items-center border-b pb-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-sm text-muted-foreground">Manage categories</p>
+            <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight">
+              <Coffee className="w-7 h-7" />
+              Coffee Relax
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Coffee Shop Management · Menu Categories
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -280,7 +286,7 @@ export default function DashboardPage() {
                 <CardDescription>
                   {editingId !== null
                     ? "Modify the category code and name below."
-                    : "Fill in the details to add a new category."}
+                    : "Add a new menu category (e.g. Hot Drinks, Pastries)."}
                 </CardDescription>
               </div>
               <Button variant="ghost" size="icon" onClick={closeForm}>
@@ -294,7 +300,7 @@ export default function DashboardPage() {
                     <Label htmlFor="category_code">Category Code</Label>
                     <Input
                       id="category_code"
-                      placeholder="e.g. VM3"
+                      placeholder="e.g. HOT"
                       value={categoryCode}
                       onChange={(e) => setCategoryCode(e.target.value)}
                       required
@@ -304,7 +310,7 @@ export default function DashboardPage() {
                     <Label htmlFor="category_name">Category Name</Label>
                     <Input
                       id="category_name"
-                      placeholder="e.g. Value Meal 3"
+                      placeholder="e.g. Hot Drinks"
                       value={categoryName}
                       onChange={(e) => setCategoryName(e.target.value)}
                       required
@@ -384,9 +390,9 @@ export default function DashboardPage() {
         <Card>
           <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <CardTitle>Categories</CardTitle>
+              <CardTitle>Menu Categories</CardTitle>
               <CardDescription>
-                A list of all categories stored in the backend.
+                All coffee shop menu categories stored in the backend.
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
